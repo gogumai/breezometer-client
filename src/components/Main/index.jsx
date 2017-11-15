@@ -1,4 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+function LocationList(props) {
+  const { data } = props;
+  const listItems = data.map(item => <li key={item.location}>{`Location: ${item.location} Air quality: ${item.aq}`}</li>);
+  return (
+    <ul>{listItems}</ul>
+  );
+}
+LocationList.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({
+    location: PropTypes.string.isRequired,
+    aq: PropTypes.number.isRequired,
+  })).isRequired,
+};
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -19,6 +34,14 @@ export default class Main extends React.Component {
   }
 
   render() {
+    const data = [
+      { location: 'a', aq: 1 },
+      { location: 'b', aq: 2 },
+      { location: 'c', aq: 3 },
+      { location: 'd', aq: 4 },
+      { location: 'e', aq: 5 },
+    ];
+
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -35,6 +58,10 @@ export default class Main extends React.Component {
             value="Search"
           />
         </form>
+        <div>
+          <p>Result</p>
+        </div>
+        <LocationList data={data} />
       </div>
     );
   }
