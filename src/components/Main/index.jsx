@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function LocationList(props) {
   const { data } = props;
-  const listItems = data.map(item => <li key={item.location}>{`Location: ${item.location} Air quality: ${item.aq}`}</li>);
+  const listItems = data.map(item => <li key={item.location}>{`Location: ${item.location} - Air quality: ${item.aq}`}</li>);
   return (
     <ul>{listItems}</ul>
   );
@@ -29,19 +29,12 @@ export default class Main extends React.Component {
   }
 
   handleSubmit(event) {
-    alert(`A name was submitted: ${this.state.value}`);
+    this.props.fetchData(this.state.value);
     event.preventDefault();
   }
 
   render() {
-    const data = [
-      { location: 'a', aq: 1 },
-      { location: 'b', aq: 2 },
-      { location: 'c', aq: 3 },
-      { location: 'd', aq: 4 },
-      { location: 'e', aq: 5 },
-    ];
-
+    const { data } = this.props.appData;
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -58,9 +51,12 @@ export default class Main extends React.Component {
             value="Search"
           />
         </form>
-        <div>
-          <p>Result</p>
-        </div>
+        {
+          data.length > 0 &&
+          <div>
+            <p>{`Last result: ${`Location: ${data[0].location} - Air quality: ${data[0].aq}`}`}</p>
+          </div>
+        }
         <LocationList data={data} />
       </div>
     );
