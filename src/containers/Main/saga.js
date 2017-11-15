@@ -6,14 +6,14 @@ import {
   FETCH_DATA_FAILURE,
 } from './constants';
 
-import getData from './api';
+import { getData } from '../../services/api';
 
-function* fetchData() {
-  try {
-    const data = yield getData();
-    yield put({ type: FETCH_DATA_SUCCESS, data });
-  } catch (e) {
-    yield put({ type: FETCH_DATA_FAILURE });
+function* fetchData(action) {
+  const { response, error } = yield getData(action.payload.coordinates);
+  if (response) {
+    yield put({ type: FETCH_DATA_SUCCESS, response });
+  } else {
+    yield put({ type: FETCH_DATA_FAILURE, error });
   }
 }
 

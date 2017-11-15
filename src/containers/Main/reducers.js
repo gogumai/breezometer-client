@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   isFetching: false,
-  error: false,
+  error: '',
   data: [],
 };
 
@@ -17,20 +17,24 @@ const ACTION_HANDLERS = {
   }),
   [FETCH_DATA_SUCCESS]: (state, action) => {
     const newData = state.data.slice();
-    newData.unshift(action.data);
+    newData.unshift({
+      location: action.response.country_name,
+      aq: action.response.breezometer_aqi,
+      color: action.response.breezometer_color,
+    });
     if (newData.length > 5) {
       newData.pop();
     }
     return {
-      ...state,
+      error: '',
       isFetching: false,
       data: newData,
     };
   },
-  [FETCH_DATA_FAILURE]: state => ({
+  [FETCH_DATA_FAILURE]: (state, action) => ({
     ...state,
     isFetching: false,
-    error: true,
+    error: action.error,
   }),
 };
 

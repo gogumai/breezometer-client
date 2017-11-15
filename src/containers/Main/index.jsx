@@ -13,6 +13,7 @@ function Main({ appData, fetchData }) {
     />
   );
 }
+
 Main.propTypes = {
   fetchData: PropTypes.func.isRequired,
   appData: PropTypes.shape({
@@ -21,21 +22,17 @@ Main.propTypes = {
       location: PropTypes.string.isRequired,
       aq: PropTypes.number.isRequired,
     })).isRequired,
-    error: PropTypes.bool.isRequired,
+    error: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-function mapStateToProps(state) {
-  return {
-    appData: state.main,
-  };
-}
+const mapStateToProps = state => ({
+  appData: state.main,
+});
 
-function mapDispatchToProps(dispatch) {
-  return {
-    fetchData: () => dispatch(fetchData()),
-  };
-}
+const mapDispatchToProps = dispatch => ({
+  fetchData: coordinates => dispatch(fetchData(coordinates)),
+});
 
 export default connect(
   mapStateToProps,
