@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './styles.css';
 
-// -------- Styles --------
+// -------- Inline Styles --------
 const errorStyle = {
   fontSize: '15px',
   color: '#ff0000',
@@ -10,17 +10,23 @@ const errorStyle = {
 const isFetchingStyle = {
   height: '18px'
 };
-// ------ End Styles ------
+// ------ End Inline Styles ------
 
 function LocationList(props) {
   const { data } = props;
-  const listItems = data.map(item =>
+  const listItems = data.slice(0,5).map(item =>
     <li>{`Location: ${item.location} - Air quality: ${item.aq}`}</li>
   );
   return (
     <ul>{listItems}</ul>
   );
 }
+LocationList.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.shape({
+    location: PropTypes.string.isRequired,
+    aq: PropTypes.number.isRequired,
+  })).isRequired,
+};
 
 function Loader() {
   return (
@@ -32,19 +38,12 @@ function Loader() {
   );
 }
 
-LocationList.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    location: PropTypes.string.isRequired,
-    aq: PropTypes.number.isRequired,
-  })).isRequired,
-};
-
 export default class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       inputValue: '',
-      isGeocodingError: false
+      isGeocodingError: false,
     };
   }
 

@@ -1,4 +1,5 @@
 import {
+  REHYDRATE,
   FETCH_DATA,
   FETCH_DATA_FAILURE,
   FETCH_DATA_SUCCESS,
@@ -11,6 +12,15 @@ const initialState = {
 };
 
 const ACTION_HANDLERS = {
+  [REHYDRATE]: (state, action) => {
+    if (action.payload.appData) {
+      return {
+        ...initialState,
+        data: action.payload.appData.data,
+      }
+    }
+    return initialState;
+  },
   [FETCH_DATA]: state => ({
     ...state,
     isFetching: true,
@@ -22,9 +32,6 @@ const ACTION_HANDLERS = {
       aq: action.response.breezometer_aqi,
       color: action.response.breezometer_color,
     });
-    if (newData.length > 5) {
-      newData.pop();
-    }
     return {
       error: '',
       isFetching: false,
