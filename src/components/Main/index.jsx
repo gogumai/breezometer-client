@@ -1,42 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './styles.css';
+
+import LocationList from '../LocationList';
+import Loader from '../Loader';
+import ErrorMessage from '../ErrorMessage';
+import LocationDisplay from '../LocationDisplay';
 
 // -------- Inline Styles --------
-const errorStyle = {
-  fontSize: '15px',
-  color: '#ff0000',
-};
 const isFetchingStyle = {
   height: '18px'
 };
 // ------ End Inline Styles ------
-
-function LocationList(props) {
-  const { data } = props;
-  const listItems = data.slice(0,5).map(item =>
-    <li>{`Location: ${item.location} - Air quality: ${item.aq}`}</li>
-  );
-  return (
-    <ul>{listItems}</ul>
-  );
-}
-LocationList.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    location: PropTypes.string.isRequired,
-    aq: PropTypes.number.isRequired,
-  })).isRequired,
-};
-
-function Loader() {
-  return (
-    <div className="spinner">
-      <div className="bounce1"></div>
-      <div className="bounce2"></div>
-      <div className="bounce3"></div>
-    </div>
-  );
-}
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -100,36 +74,20 @@ export default class Main extends React.Component {
             value="Search"
           />
         </form>
-        {
-          isFetching
-          ? <Loader />
-          : <div style={isFetchingStyle}></div>
-        }
+        { isFetching ? <Loader /> : <div style={isFetchingStyle}></div> }
         {
           (error !== '' || this.state.isGeocodingError) &&
-          <div>
-            <p
-              style={errorStyle}
-            >
-              {
-                `Something went wrong: ${
-                  this.state.isGeocodingError ?
-                  'No location found :(' :
-                  error
-                }`
-              }
-            </p>
-          </div>
+          <ErrorMessage
+            isGeocodingError={this.state.isGeocodingError}
+            message={error}
+          />
         }
         {
           data.length > 0 &&
-          <div>
-            <p
-              style={{ color: data[0].color }}
-            >
-              {`Last result: Location: ${data[0].location} - Air quality: ${data[0].aq}`}
-            </p>
-          </div>
+          <LocationDisplay
+            data={data[0]}
+            colorize
+          />
         }
         <LocationList data={data} />
       </div>
