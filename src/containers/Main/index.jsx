@@ -12,7 +12,7 @@ class Main extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    localStorage.setItem('appData', JSON.stringify(nextProps.appData));
+    localStorage.setItem('appData', JSON.stringify(nextProps.appData.data.slice(0, 5)));
   }
 
   render() {

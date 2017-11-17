@@ -9,11 +9,11 @@ export function fetchData(coordinates) {
   };
 }
 
-export function rehydrate(appData) {
+export function rehydrate(data) {
   return {
     type: REHYDRATE,
     payload: {
-      appData,
+      data,
     },
   };
 }

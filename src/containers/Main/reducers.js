@@ -13,10 +13,10 @@ const initialState = {
 
 const ACTION_HANDLERS = {
   [REHYDRATE]: (state, action) => {
-    if (action.payload.appData) {
+    if (action.payload.data) {
       return {
         ...initialState,
-        data: action.payload.appData.data,
+        data: action.payload.data,
       }
     }
     return initialState;
