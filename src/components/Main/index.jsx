@@ -54,42 +54,85 @@ export default class Main extends React.Component {
   render() {
     const { data, error, isFetching } = this.props.appData;
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="location">
-            Location:
-            <input
-              id="location"
-              value={this.state.inputValue}
-              onChange={this.handleChange}
-            />
-          </label>
-          <input
+      <Container>
+        <Form onSubmit={this.handleSubmit}>
+          <Input
+            id="location"
+            placeholder={'Enter a location...'}
+            value={this.state.inputValue}
+            onChange={this.handleChange}
+            autoComplete={'off'}
+          />
+          <Search
             type="submit"
-            value="Search"
+            value="SEARCH"
           />
-        </form>
-        { isFetching ? <Loader /> : <WhiteSpace/> }
-        {
-          (error !== '' || this.state.isGeocodingError) &&
-          <ErrorMessage
-            isGeocodingError={this.state.isGeocodingError}
-            message={error}
-          />
-        }
-        {
-          data.length > 0 &&
-          <LocationDisplay
-            data={data[0]}
-            colorize
-          />
-        }
-        <LocationList data={data} />
-      </div>
+          { isFetching ? <Loader /> : <WhiteSpace/> }
+        </Form>
+        <DisplayData>
+          {
+            (error !== '' || this.state.isGeocodingError) &&
+            <ErrorMessage
+              isGeocodingError={this.state.isGeocodingError}
+              message={error}
+            />
+          }
+          {
+            data.length > 0 &&
+            <LocationDisplay
+              data={data[0]}
+              colorize
+            />
+          }
+          <LocationList data={data} />
+        </DisplayData>
+      </Container>
     );
   }
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 10px;
+`;
+
+const DisplayData = styled.div`
+  margin: 0.5em;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  background-color: white;
+`;
+
 const WhiteSpace = styled.div`
-  height: 18px;
+  width: 30px;
+`;
+
+const Form = styled.form`
+  display: flex;
+  align-items: center;
+`;
+
+const Input = styled.input`
+	padding: 0.5em;
+	margin: 0.5em;
+  font-size: 16px;
+	color: palevioletred;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #bebebe;
+	border-radius: 3px;
+  outline: none;
+`;
+
+const Search = styled.input`
+  width: 100px;
+  height: 36px;
+	color: palevioletred;
+  border-width: 1px;
+	border-radius: 3px;
+  border-color: palevioletred;
+  outline: none;
 `;

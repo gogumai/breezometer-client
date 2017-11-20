@@ -1,10 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-export default function ErrorDisplay({ data, colorize, asListItem }) {
+export default function LocationDisplay({
+  data,
+  colorize,
+  asListItem,
+  lastItem,
+}) {
   const text = `Location: ${data.location} - Air quality: ${data.aq}`;
   if (asListItem) {
-    return <li>{text}</li>;
+    return (
+      <ListItem lastItem={lastItem}>
+        {text}
+      </ListItem>
+    );
   }
   return (
     <div>
@@ -15,7 +25,7 @@ export default function ErrorDisplay({ data, colorize, asListItem }) {
   );
 }
 
-ErrorDisplay.propTypes = {
+LocationDisplay.propTypes = {
   asListItem: PropTypes.bool,
   colorize: PropTypes.bool,
   data: PropTypes.arrayOf(PropTypes.shape({
@@ -23,9 +33,19 @@ ErrorDisplay.propTypes = {
     aq: PropTypes.number.isRequired,
     color: PropTypes.string,
   })).isRequired,
+  lastItem: PropTypes.bool,
 };
 
-ErrorDisplay.defaultProps = {
+LocationDisplay.defaultProps = {
   asListItem: false,
   colorize: false,
+  lastItem: false,
 };
+
+const ListItem = styled.li`
+  font: 200 16px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: ${props => (props.lastItem ? '0px' : '1px solid #ccc')};
+  color: #000;
+  display: block;
+  width: 300px;
+`;
