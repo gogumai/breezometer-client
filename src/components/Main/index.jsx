@@ -31,8 +31,8 @@ export default class Main extends React.Component {
 
   geocodeAddress = (address) => {
     this.geocoder.geocode(
-      { 'address': address },
-      function handleResults(results, status) {
+      { address },
+      (results, status) => {
         if (status === window.google.maps.GeocoderStatus.OK) {
           const location = {
             latitude: results[0].geometry.location.lat(),
@@ -47,7 +47,7 @@ export default class Main extends React.Component {
         this.setState({
           isGeocodingError: true
         });
-      }.bind(this)
+      }
     );
   }
 

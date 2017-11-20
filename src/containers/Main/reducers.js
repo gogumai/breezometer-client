@@ -17,7 +17,7 @@ const ACTION_HANDLERS = {
       return {
         ...initialState,
         data: action.payload.data,
-      }
+      };
     }
     return initialState;
   },
@@ -26,16 +26,16 @@ const ACTION_HANDLERS = {
     isFetching: true,
   }),
   [FETCH_DATA_SUCCESS]: (state, action) => {
-    const newData = state.data.slice();
-    newData.unshift({
-      location: action.response.country_name,
-      aq: action.response.breezometer_aqi,
-      color: action.response.breezometer_color,
-    });
+    const { response: { country_name, breezometer_aqi, breezometer_color } } = action;
+    const newData = {
+      location: country_name,
+      aq: breezometer_aqi,
+      color: breezometer_color,
+    };
     return {
       error: '',
       isFetching: false,
-      data: newData,
+      data: [newData, ...state.data],
     };
   },
   [FETCH_DATA_FAILURE]: (state, action) => ({
