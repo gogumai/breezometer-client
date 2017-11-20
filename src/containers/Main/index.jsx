@@ -3,15 +3,28 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import MainComponent from '../../components/Main';
-import { fetchData } from './actions';
+import { fetchData, rehydrate } from './actions';
 
-function Main({ appData, fetchData }) {
-  return (
-    <MainComponent
-      appData={appData}
-      fetchData={fetchData}
-    />
-  );
+class Main extends React.Component {
+  componentWillMount() {
+    const localStorageData = JSON.parse(localStorage.getItem('appData'));
+    this.props.rehydrate(localStorageData);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    localStorage.setItem('appData', JSON.stringify(nextProps.appData.data.slice(0, 5)));
+  }
+
+  render() {
+    const { appData, fetchData } = this.props;
+
+    return (
+      <MainComponent
+        appData={appData}
+        fetchData={fetchData}
+      />
+    );
+  }
 }
 
 Main.propTypes = {
@@ -32,6 +45,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchData: coordinates => dispatch(fetchData(coordinates)),
+  rehydrate: appData => dispatch(rehydrate(appData)),
 });
 
 export default connect(

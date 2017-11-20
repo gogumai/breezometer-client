@@ -1,4 +1,4 @@
-const API_ROOT = 'https://api.breezometer.com/baqi/?key=d6c1ac35aea3480e8cf04c53527d9d32&';
+const API_ROOT = process.env.REACT_APP_API_URL;
 
 const responseWithErrors = json => !json.data_valid || json.error;
 

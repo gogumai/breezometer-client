@@ -1,4 +1,5 @@
 import {
+  REHYDRATE,
   FETCH_DATA,
   FETCH_DATA_FAILURE,
   FETCH_DATA_SUCCESS,
@@ -11,24 +12,30 @@ const initialState = {
 };
 
 const ACTION_HANDLERS = {
+  [REHYDRATE]: (state, action) => {
+    if (action.payload.data) {
+      return {
+        ...initialState,
+        data: action.payload.data,
+      };
+    }
+    return initialState;
+  },
   [FETCH_DATA]: state => ({
     ...state,
     isFetching: true,
   }),
   [FETCH_DATA_SUCCESS]: (state, action) => {
-    const newData = state.data.slice();
-    newData.unshift({
-      location: action.response.country_name,
-      aq: action.response.breezometer_aqi,
-      color: action.response.breezometer_color,
-    });
-    if (newData.length > 5) {
-      newData.pop();
-    }
+    const { response: { country_name, breezometer_aqi, breezometer_color } } = action;
+    const newData = {
+      location: country_name,
+      aq: breezometer_aqi,
+      color: breezometer_color,
+    };
     return {
       error: '',
       isFetching: false,
-      data: newData,
+      data: [newData, ...state.data],
     };
   },
   [FETCH_DATA_FAILURE]: (state, action) => ({

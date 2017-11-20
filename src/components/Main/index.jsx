@@ -1,49 +1,58 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
-// -------- Styles --------
-const errorStyle = {
-  fontSize: '15px',
-  color: '#ff0000',
-};
-// ------ End Styles ------
-
-function LocationList(props) {
-  const { data } = props;
-  const listItems = data.map(item => <li>{`Location: ${item.location} - Air quality: ${item.aq}`}</li>);
-  return (
-    <ul>{listItems}</ul>
-  );
-}
-
-LocationList.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape({
-    location: PropTypes.string.isRequired,
-    aq: PropTypes.number.isRequired,
-  })).isRequired,
-};
+import LocationList from '../LocationList';
+import Loader from '../Loader';
+import ErrorMessage from '../ErrorMessage';
+import LocationDisplay from '../LocationDisplay';
 
 export default class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { value: '40.748392,-73.985444' };
+    this.state = {
+      inputValue: '',
+      isGeocodingError: false,
+    };
+  }
+
+  componentDidMount() {
+    this.geocoder = new window.google.maps.Geocoder();
   }
 
   handleChange = event => {
-    this.setState({ value: event.target.value });
+    this.setState({ inputValue: event.target.value });
   }
 
   handleSubmit = event => {
-    const coordinates = this.state.value.split(',');
-    this.props.fetchData({
-      latitude: coordinates[0],
-      longitude: coordinates[1],
-    });
+    this.geocodeAddress(this.state.inputValue);
     event.preventDefault();
   }
 
+  geocodeAddress = (address) => {
+    this.geocoder.geocode(
+      { address },
+      (results, status) => {
+        if (status === window.google.maps.GeocoderStatus.OK) {
+          const location = {
+            latitude: results[0].geometry.location.lat(),
+            longitude: results[0].geometry.location.lng(),
+          }
+          this.setState({
+            isGeocodingError: false
+          });
+          this.props.fetchData(location);
+          return;
+        }
+        this.setState({
+          isGeocodingError: true
+        });
+      }
+    );
+  }
+
   render() {
-    const { data, error } = this.props.appData;
+    const { data, error, isFetching } = this.props.appData;
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
@@ -51,7 +60,7 @@ export default class Main extends React.Component {
             Location:
             <input
               id="location"
-              value={this.state.value}
+              value={this.state.inputValue}
               onChange={this.handleChange}
             />
           </label>
@@ -60,20 +69,27 @@ export default class Main extends React.Component {
             value="Search"
           />
         </form>
+        { isFetching ? <Loader /> : <WhiteSpace/> }
         {
-          error !== '' &&
-          <div>
-            <p style={errorStyle}>{`Something went wrong: ${error}`}</p>
-          </div>
+          (error !== '' || this.state.isGeocodingError) &&
+          <ErrorMessage
+            isGeocodingError={this.state.isGeocodingError}
+            message={error}
+          />
         }
         {
           data.length > 0 &&
-          <div>
-            <p style={{ color: data[0].color }}>{`Last result: Location: ${data[0].location} - Air quality: ${data[0].aq}`}</p>
-          </div>
+          <LocationDisplay
+            data={data[0]}
+            colorize
+          />
         }
         <LocationList data={data} />
       </div>
     );
   }
 }
+
+const WhiteSpace = styled.div`
+  height: 18px;
+`;
