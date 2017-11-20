@@ -1,16 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 
 import LocationList from '../LocationList';
 import Loader from '../Loader';
 import ErrorMessage from '../ErrorMessage';
 import LocationDisplay from '../LocationDisplay';
-
-// -------- Inline Styles --------
-const isFetchingStyle = {
-  height: '18px'
-};
-// ------ End Inline Styles ------
 
 export default class Main extends React.Component {
   constructor(props) {
@@ -74,7 +69,7 @@ export default class Main extends React.Component {
             value="Search"
           />
         </form>
-        { isFetching ? <Loader /> : <div style={isFetchingStyle}></div> }
+        { isFetching ? <Loader /> : <WhiteSpace/> }
         {
           (error !== '' || this.state.isGeocodingError) &&
           <ErrorMessage
@@ -94,3 +89,7 @@ export default class Main extends React.Component {
     );
   }
 }
+
+const WhiteSpace = styled.div`
+  height: 18px;
+`;
