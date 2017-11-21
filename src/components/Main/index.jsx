@@ -66,6 +66,7 @@ export default class Main extends React.Component {
           <Search
             type="submit"
             value="SEARCH"
+            disabled={this.state.inputValue === ''}
           />
           { isFetching ? <Loader /> : <WhiteSpace/> }
         </Form>
@@ -126,6 +127,7 @@ const Input = styled.input`
 	border-radius: 3px;
   outline: none;
 `;
+Input.displayName = 'Input';
 
 const Search = styled.input`
   width: 100px;
@@ -136,3 +138,4 @@ const Search = styled.input`
   border-color: palevioletred;
   outline: none;
 `;
+Search.displayName = 'Search';
