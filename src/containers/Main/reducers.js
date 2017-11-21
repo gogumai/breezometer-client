@@ -5,7 +5,7 @@ import {
   FETCH_DATA_SUCCESS,
 } from './constants';
 
-const initialState = {
+export const initialState = {
   isFetching: false,
   error: '',
   data: [],
