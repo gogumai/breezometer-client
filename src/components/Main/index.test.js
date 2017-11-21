@@ -11,8 +11,9 @@ it('button is disabled when input has no text', () => {
 
 it('button is enabled when input has text', () => {
   const wrapper = shallow(<Main appData={appData} />);
-  const state = { inputValue: 'France' };
-  wrapper.setState(state);
-  expect(wrapper.find('Input').props().value).toBe(state.inputValue);
+  const value = 'France';
+  wrapper.find('Input').simulate('change', { target: { value } });
+  expect(wrapper.state('inputValue')).toBe(value);
+  expect(wrapper.find('Input').props().value).toBe(value);
   expect(wrapper.find('Search').props().disabled).toBe(false);
 });
