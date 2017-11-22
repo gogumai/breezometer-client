@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import MainComponent from '../../components/Main';
 import { fetchData, rehydrate } from './actions';
 
-class Main extends React.Component {
+export class Main extends React.Component {
   componentWillMount() {
     const localStorageData = JSON.parse(localStorage.getItem('appData'));
     this.props.rehydrate(localStorageData);
