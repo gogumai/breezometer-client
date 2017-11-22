@@ -1,4 +1,4 @@
-import { put, takeEvery } from 'redux-saga/effects';
+import { put, call, takeEvery } from 'redux-saga/effects';
 
 import {
   FETCH_DATA,
@@ -8,8 +8,8 @@ import {
 
 import { getData } from '../../services/api';
 
-function* fetchData(action) {
-  const { response, error } = yield getData(action.payload.coordinates);
+export function* fetchData(action) {
+  const { response, error } = yield call(getData, action.payload.coordinates);
   if (response) {
     yield put({ type: FETCH_DATA_SUCCESS, response });
   } else {
