@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 
-export default function DotScale({
+export default function Loader({
   color,
   duration,
   size,
@@ -47,14 +47,14 @@ export default function DotScale({
   );
 }
 
-DotScale.propTypes = {
+Loader.propTypes = {
   color: PropTypes.string,
   duration: PropTypes.string,
   size: PropTypes.string,
   dotSize: PropTypes.string,
 };
 
-DotScale.defaultProps = {
+Loader.defaultProps = {
   color: '#333',
   duration: '1.4s',
   size: '30px',

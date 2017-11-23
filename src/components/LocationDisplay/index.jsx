@@ -28,11 +28,11 @@ export default function LocationDisplay({
 LocationDisplay.propTypes = {
   asListItem: PropTypes.bool,
   colorize: PropTypes.bool,
-  data: PropTypes.arrayOf(PropTypes.shape({
+  data: PropTypes.shape({
     location: PropTypes.string.isRequired,
     aq: PropTypes.number.isRequired,
     color: PropTypes.string,
-  })).isRequired,
+  }).isRequired,
   lastItem: PropTypes.bool,
 };
 

@@ -68,7 +68,7 @@ export default class Main extends React.Component {
             value="SEARCH"
             disabled={this.state.inputValue === ''}
           />
-          { isFetching ? <Loader /> : <WhiteSpace/> }
+          { isFetching && <Loader /> }
         </Form>
         <DisplayData>
           {
@@ -98,6 +98,7 @@ const Container = styled.div`
   background-color: white;
   padding: 10px;
 `;
+Container.displayName = 'Container';
 
 const DisplayData = styled.div`
   margin: 0.5em;
@@ -106,15 +107,18 @@ const DisplayData = styled.div`
   flex-direction: column;
   background-color: white;
 `;
+DisplayData.displayName = 'DisplayData';
 
 const WhiteSpace = styled.div`
   width: 30px;
 `;
+WhiteSpace.displayName = 'WhiteSpace';
 
 const Form = styled.form`
   display: flex;
   align-items: center;
 `;
+Form.displayName = 'Form';
 
 const Input = styled.input`
 	padding: 0.5em;

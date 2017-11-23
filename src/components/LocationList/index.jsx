@@ -6,7 +6,7 @@ import LocationDisplay from '../LocationDisplay';
 export default function LocationList(props) {
   const { data } = props;
   const listItems = data.slice(0, 5).map((item, i, arr) =>
-    <LocationDisplay data={item} asListItem lastItem={i === arr.length - 1} />);
+    <LocationDisplay key={i} data={item} asListItem lastItem={i === arr.length - 1} />);
   return (
     <List>{listItems}</List>
   );
