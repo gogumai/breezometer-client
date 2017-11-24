@@ -1,5 +1,5 @@
-import * as actions from './actions';
-import * as types from './constants';
+import * as actions from '../actions';
+import * as types from '../constants';
 
 it('should create an action to fetch data', () => {
   const coordinates = {

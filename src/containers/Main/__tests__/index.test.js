@@ -1,9 +1,9 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { Main } from './index';
+import { Main } from '../index';
 
-import store from '../../redux/store';
+import store from '../../../redux/store';
 
 const france = { location: 'France', aq: 20, color: '#ff0000' };
 const eeuu = { location: 'United States', aq: 67, color: '#ff00ff' };

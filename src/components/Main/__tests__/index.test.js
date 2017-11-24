@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import Main from './index';
+import Main from '../index';
 
 const appData = { data: [], isFetching: false, error: '' };
 const appDataFetching = { data: [], isFetching: true, error: '' };

@@ -1,12 +1,12 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
 import { cloneableGenerator } from 'redux-saga/utils';
-import dataSaga, { fetchData } from './saga';
-import { getData } from '../../services/api';
+import dataSaga, { fetchData } from '../saga';
+import { getData } from '../../../services/api';
 import {
   FETCH_DATA,
   FETCH_DATA_SUCCESS,
   FETCH_DATA_FAILURE,
-} from './constants';
+} from '../constants';
 
 it('fetchData saga', () => {
   const action = {
